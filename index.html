@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <script src="constants.js"></script>
+    <script src="script.js" async></script>
+    <title>Sistema de Reserva de Voos</title>
+</head>
+
+<body>
+    <div class="title">Sistema de Reserva de Voos</div>
+    <div class="container">
+        <label for="input" id="label">Insira o destino da viagem</label>
+        <input type="text" id="input" title="Entrada" autofocus>
+        <button id="submit" onclick="processInput()">Enviar</button>
+        <br>
+        <input type="file" id="csv">
+    </div>
+    <div id="execution" align=center></div>
+    <footer class="footer">
+        Criado por Sandro Viégas, Walter Frank e Leonardo Leites
+    </footer>
+</body>
+
+</html>

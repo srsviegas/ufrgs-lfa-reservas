@@ -50,6 +50,10 @@ label {
     margin-top: 10px;
 }
 
+#execution {
+    text-transform: capitalize;
+}
+
 .footer {
     text-align: center;
     background-color: #e6e6e6;

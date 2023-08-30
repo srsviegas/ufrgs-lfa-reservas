@@ -1,7 +1,11 @@
 const label = document.getElementById("label");
 const input = document.getElementById("input");
 const submit = document.getElementById("submit");
-const execution = document.getElementById("execution");
+const executions = document.getElementById("executions");
+
+function capitalize(string) {
+    return string.toLowerCase().replace(/(?:^|\s)\S(?=\S)|^\w$/g, x => x.toUpperCase());
+}
 
 class System {    
     transitions = {
@@ -17,26 +21,35 @@ class System {
         13: Object.fromEntries(months.map((m) => [m, 14]).concat([["VOLTAR", 10]])),
         14: Object.fromEntries([...Array(31).keys()].map((m) => [m, 16])),
         16: {"DÉBITO": 20, "CRÉDITO": 18},
-        17: Object.fromEntries([...Array(12).keys()].map(key => [(key + 1) + "X", 20]).concat([["VOLTAR", 16]]))
+        18: Object.fromEntries([...Array(12).keys()].map(key => [(key + 1) + "X", 20]).concat([["VOLTAR", 16]]))
     };
 
     constructor() {
-        this.state = 0;
+        this.resetState();
     }
 
     changeState(state) {
         this.state = state;
-        label.innerHTML = labels[state];
-
+        label.innerHTML = labels[state] + ` [q${this.state}]`;
     }
 
     nextState(key) {
-        execution.innerHTML += `${key}<br>`;
-        this.changeState(this.transitions[this.state][key.toUpperCase()]);
+        this.changeState(this.transitions[this.state][key]);
+        let output = capitalize(key)
+        if (system.state == undefined) {
+            output = `<span class="error">${output} [ENTRADA INVÁLIDA]</span>`;
+        }
+        this.currentExecution.innerHTML += `${output}<br>`
+        if (system.state == 20) {
+            system.currentExecution.innerHTML += "<span class='success'>RESERVA FINALIZADA</span>"
+            system.resetState()
+        }
     }
 
     resetState() {
-        execution.innerHTML = "";
+        this.currentExecution = document.createElement("div");
+        this.currentExecution.classList.add("execution");
+        executions.appendChild(this.currentExecution);
         this.changeState(0);
     }
 }
@@ -45,14 +58,11 @@ let system = new System();
 console.log(system.transitions);
 
 function processInput() {
-    let previousState = system.state
-    system.nextState(input.value);
+    system.nextState(input.value.toUpperCase());
     if (system.state == undefined) {
-        window.alert(`ERRO: "${input.value}" não é uma entrada válida no estado ${previousState}`);
         system.resetState();
     }
     input.value = "";
-    console.log(`${previousState} -> ${system.state}`);
 }
 
 input.addEventListener("keypress", (e) => {

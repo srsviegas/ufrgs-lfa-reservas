@@ -15,11 +15,11 @@ class System {
         5: {"F": 10, "J": 10, "W": 10, "Y": 10, "VOLTAR": 4},
         6: {"F": 7, "J": 7, "W": 7, "Y": 7, "VOLTAR": 4},
         7: Object.fromEntries(months.map((m) => [m, 8]).concat([["VOLTAR", 6]])),
-        8: Object.fromEntries([...Array(31).keys()].map((m) => [m, 16])),
+        8: Object.fromEntries([...Array(31).keys()].map((m) => [m + 1, 16])),
         10: Object.fromEntries(months.map((m) => [m, 11]).concat([["VOLTAR", 5]])),
-        11: Object.fromEntries([...Array(31).keys()].map((m) => [m, 13])),
+        11: Object.fromEntries([...Array(31).keys()].map((m) => [m + 1, 13])),
         13: Object.fromEntries(months.map((m) => [m, 14]).concat([["VOLTAR", 10]])),
-        14: Object.fromEntries([...Array(31).keys()].map((m) => [m, 16])),
+        14: Object.fromEntries([...Array(31).keys()].map((m) => [m + 1, 16])),
         16: {"DÉBITO": 20, "CRÉDITO": 18},
         18: Object.fromEntries([...Array(12).keys()].map(key => [(key + 1) + "X", 20]).concat([["VOLTAR", 16]]))
     };
@@ -34,15 +34,20 @@ class System {
     }
 
     nextState(key) {
+        if (key == "CANCELAR") {
+            this.currentExecution.innerHTML += "<span class='success'>RESERVA CANCELADA</span>";
+            system.resetState();
+            return;
+        }
         this.changeState(this.transitions[this.state][key]);
-        let output = capitalize(key)
+        let output = capitalize(key);
         if (system.state == undefined) {
             output = `<span class="error">${output} [ENTRADA INVÁLIDA]</span>`;
         }
-        this.currentExecution.innerHTML += `${output}<br>`
+        this.currentExecution.innerHTML += `${output}<br>`;
         if (system.state == 20) {
-            system.currentExecution.innerHTML += "<span class='success'>RESERVA FINALIZADA</span>"
-            system.resetState()
+            system.currentExecution.innerHTML += "<span class='success'>RESERVA FINALIZADA</span>";
+            system.resetState();
         }
     }
 

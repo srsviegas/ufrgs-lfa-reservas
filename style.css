@@ -1,11 +1,33 @@
+:root {
+    --bgcolor1: #4a5759;
+    --acolor: #e63946;
+    --bcolor: #a32d37;
+}
+
 html,
 body {
     font-family: Arial, sans-serif;
-    background-color: white;
     margin: 0;
     padding: 0;
-    height: 100%;
-    min-height: 100%;
+}
+
+.background {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 130pt;
+    width: 100%;
+    background-color: var(--bgcolor1);
+}
+
+.title {
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    padding: 20px;
+    font-size: 24px;
+    letter-spacing: 2px;
 }
 
 label {
@@ -13,19 +35,15 @@ label {
 }
 
 .container {
+    margin: auto;
+    margin-bottom: 2%;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    padding: 20pt;
+    max-width: 400pt;
+    background-color: white;
     text-align: center;
-    margin: 2.5%;
-}
-
-.title {
-    text-align: center;
-    font-weight: bold;
-    background-color: #007bff;
-    color: white;
-    padding: 20px;
-    font-size: 24px;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
 }
 
 #input {
@@ -37,7 +55,7 @@ label {
 
 #submit {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: var(--acolor);
     color: white;
     border: none;
     border-radius: 5px;
@@ -46,35 +64,23 @@ label {
 }
 
 #submit:hover {
-    background-color: #0056b3;
+    background-color: var(--bcolor);
 }
 
 #csv {
     margin-top: 10px;
 }
 
-.footer {
-    text-align: center;
-    background-color: #e6e6e6;
-    font-size: small;
-    padding: 0.5%;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-
 #executions {
     display: flex;
-    flex-wrap: wrap;
+    flex-flow: row-reverse wrap-reverse;
     justify-content: space-between;
     background-color: #f0f0f0;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-left: 2.5%;
-    margin-right: 2.5%;
-    margin-bottom: 10%;
-    min-height: 25%;
+    margin: 0% 2.5% 2.5% 2.5%;
+    min-height: 100pt;
 }
 
 .execution {
@@ -98,4 +104,11 @@ label {
 .success {
     color: #29b705;
     font-weight: bold;
+}
+
+.footer {
+    text-align: center;
+    font-size: small;
+    padding-bottom: 5%;
+    bottom: 0;
 }

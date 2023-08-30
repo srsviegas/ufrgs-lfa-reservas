@@ -28,7 +28,6 @@ const destinations = [
     ["PERU", 4],
     ["PANAMÁ", 4],
     ["NICARÁGUA", 4],
-    ["MÉXICO", 4],
     ["REPÚBLICA DOMINICANA", 4],
     ["CUBA", 4],
     ["COLÔMBIA", 4],
@@ -37,6 +36,7 @@ const destinations = [
     ["EL SALVADOR", 4],
     ["BRASIL", 4],
     ["BOLÍVIA", 4],
+    ["ARGENTINA", 4]
 ];
 
 const months = [

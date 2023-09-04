@@ -4,11 +4,17 @@ const submit = document.getElementById("submit");
 const executions = document.getElementById("executions");
 const csv = document.getElementById("csv");
 
+/**
+ * Capitalizes the first letter of each word in a string.
+ * @param {string} string - The input string.
+ * @returns {string} The string with the starting letter of each word capitalized.
+ */
 function capitalize(string) {
     return string.toLowerCase().replace(/(?:^|\s)\S(?=\S)|^\w$/g, x => x.toUpperCase());
 }
 
-class System {    
+class System {
+    // Dictionary containing all of the system's possible transitions.
     transitions = {
         0: Object.fromEntries(destinations),
         1: {"VISTO": 4, "CIDADANIA": 4, "VOLTAR": 0},
@@ -25,21 +31,33 @@ class System {
         18: Object.fromEntries([...Array(12).keys()].map(key => [(key + 1) + "X", 20]).concat([["VOLTAR", 16]]))
     };
 
+    /**
+     * Initializes the System instance and resets its state to q0.
+     */
     constructor() {
         this.resetState();
     }
 
+    /**
+     * Changes the state of the system to the specified state and updates the DOM label.
+     * @param {number} state - The number representing the next state of the system.
+     */
     changeState(state) {
         this.state = state;
         label.innerHTML = labels[state] + ` [q${this.state}]`;
     }
 
+    /**
+     * Advances the state of the system using the transitions table.
+     * @param {string} key - The string representing the transition to the next state.
+     */
     nextState(key) {
         if (key == "CANCELAR") {
             this.currentExecution.innerHTML += "<span class='success'>RESERVA CANCELADA</span>";
             system.resetState();
             return;
         }
+        // Gets the next state of the system from the transitions table.
         try {
             this.changeState(this.transitions[this.state][key]);
         } catch {
@@ -55,6 +73,9 @@ class System {
         }
     }
 
+    /**
+     * Resets the state of the system to q0 and initializes a new execution display block.
+     */
     resetState() {
         this.currentExecution = document.createElement("div");
         this.currentExecution.classList.add("execution");
@@ -66,23 +87,23 @@ class System {
 let system = new System();
 console.log(system.transitions);
 
+/**
+ * Processes user input by advancing the system state based on the input value.
+ */
 function processInput() {
-        system.nextState(input.value.toUpperCase());
-        if (system.state == undefined || system.state == 20) {
-            system.resetState();
-        }
-        input.value = "";
+    system.nextState(input.value.toUpperCase());
+    // Resets the system after reaching an undefined or final state
+    if (system.state == undefined || system.state == 20) {
+        system.resetState();
+    }
+    input.value = "";
 }
 
-input.addEventListener("keypress", (e) => {
-    if (e.key == "Enter") {
-        e.preventDefault();
-        processInput()
-    }
-});
-
+/**
+ * Opens a CSV file and executes the system using the entries inside it as input.
+ * @param {Event} event The event object created when an input file is selected.
+ */
 function openFile(event) {
-
     var input = event.target;
     var reader = new FileReader();
 
@@ -107,3 +128,11 @@ function openFile(event) {
     }
     setTimeout(() => { csv.value = "" }, 2000)
 }
+
+// Event listener for the "Enter" key press in the input field
+input.addEventListener("keypress", (e) => {
+    if (e.key == "Enter") {
+        e.preventDefault();
+        processInput()
+    }
+});

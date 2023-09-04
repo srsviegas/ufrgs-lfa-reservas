@@ -2,6 +2,7 @@ const label = document.getElementById("label");
 const input = document.getElementById("input");
 const submit = document.getElementById("submit");
 const executions = document.getElementById("executions");
+const csv = document.getElementById("csv");
 
 function capitalize(string) {
     return string.toLowerCase().replace(/(?:^|\s)\S(?=\S)|^\w$/g, x => x.toUpperCase());
@@ -10,7 +11,7 @@ function capitalize(string) {
 class System {    
     transitions = {
         0: Object.fromEntries(destinations),
-        1: {"VISTO": 4, "CIDADANIA": 4},
+        1: {"VISTO": 4, "CIDADANIA": 4, "VOLTAR": 0},
         4: {"SOMENTE IDA": 6, "IDA E VOLTA": 5, "VOLTAR": 0},
         5: {"F": 10, "J": 10, "W": 10, "Y": 10, "VOLTAR": 4},
         6: {"F": 7, "J": 7, "W": 7, "Y": 7, "VOLTAR": 4},
@@ -47,7 +48,6 @@ class System {
         this.currentExecution.innerHTML += `${output}<br>`;
         if (system.state == 20) {
             system.currentExecution.innerHTML += "<span class='success'>RESERVA FINALIZADA</span>";
-            system.resetState();
         }
     }
 
@@ -63,11 +63,11 @@ let system = new System();
 console.log(system.transitions);
 
 function processInput() {
-    system.nextState(input.value.toUpperCase());
-    if (system.state == undefined) {
-        system.resetState();
-    }
-    input.value = "";
+        system.nextState(input.value.toUpperCase());
+        if (system.state == undefined || system.state == 20) {
+            system.resetState();
+        }
+        input.value = "";
 }
 
 input.addEventListener("keypress", (e) => {
@@ -76,3 +76,28 @@ input.addEventListener("keypress", (e) => {
         processInput()
     }
 });
+
+function openFile(event) {
+
+    var input = event.target;
+    var reader = new FileReader();
+
+    reader.readAsText(input.files[0]);
+
+    if(input.files[0].type.includes("csv")){
+        reader.onload = function(event){
+            var text = event.target.result;
+            var array = text.split(",")
+            
+            for (i = 0; i < array.length; i++){
+                system.nextState(text.split(",")[i].toUpperCase())
+            
+                if (system.state == undefined || system.state == 20) {
+                    system.resetState();
+                    break;
+                }     
+            }
+        };
+    }
+    setTimeout(() => { csv.value = "" }, 2000)
+}

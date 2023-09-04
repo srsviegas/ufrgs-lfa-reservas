@@ -46,14 +46,14 @@ label {
     text-align: center;
 }
 
-#input {
+.input {
     padding: 10px 20px;
     width: 200px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-#submit {
+.submit {
     padding: 10px 20px;
     background-color: var(--acolor);
     color: white;
@@ -63,15 +63,15 @@ label {
     margin-top: 10px;
 }
 
-#submit:hover {
+.submit:hover {
     background-color: var(--bcolor);
 }
 
-#csv {
+.csv {
     margin-top: 10px;
 }
 
-#executions {
+.executions {
     display: flex;
     flex-flow: row-reverse wrap-reverse;
     justify-content: space-between;

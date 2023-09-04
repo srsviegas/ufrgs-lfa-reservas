@@ -3,9 +3,16 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content="Sandro Viégas, Walter Frank e Leonardo Leites ">
+
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+
     <script src="constants.js"></script>
     <script src="script.js" async></script>
+
     <title>Sistema de Reserva de Voos</title>
 </head>
 
@@ -14,12 +21,12 @@
     <div class="title">Sistema de Reserva de Voos</div>
     <div class="container">
         <label for="input" id="label">Insira o destino da viagem</label>
-        <input type="text" id="input" title="Entrada" autofocus>
-        <button id="submit" onclick="processInput()">Enviar</button>
+        <input type="text" class="input" id="input" title="Entrada" autofocus>
+        <button id="submit" class="submit" onclick="processInput()">Enviar</button>
         <br>
-        <input type="file" id="csv">
+        <input type="file" id="csv" class="csv" onchange="openFile(event)">
     </div>
-    <div id="executions"></div>
+    <div id="executions" class="executions"></div>
     <footer class="footer">
         Criado por Sandro Viégas, Walter Frank e Leonardo Leites
     </footer>

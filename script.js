@@ -40,14 +40,18 @@ class System {
             system.resetState();
             return;
         }
-        this.changeState(this.transitions[this.state][key]);
+        try {
+            this.changeState(this.transitions[this.state][key]);
+        } catch {
+            this.state = undefined;
+        }
         let output = capitalize(key);
         if (system.state == undefined) {
             output = `<span class="error">${output} [ENTRADA INVÁLIDA]</span>`;
         }
         this.currentExecution.innerHTML += `${output}<br>`;
         if (system.state == 20) {
-            system.currentExecution.innerHTML += "<span class='success'>RESERVA FINALIZADA</span>";
+            system.currentExecution.innerHTML += "<span class='success'>RESERVA FINALIZADA</span><br>";
         }
     }
 
@@ -91,12 +95,14 @@ function openFile(event) {
             
             for (i = 0; i < array.length; i++){
                 system.nextState(text.split(",")[i].toUpperCase())
-            
-                if (system.state == undefined || system.state == 20) {
-                    system.resetState();
+                if (system.state == undefined) {
                     break;
-                }     
+                }
             }
+            if (system.state != 20 && system.state != undefined) {
+                system.currentExecution.innerHTML += "<span class='error'>ENTRADA INCOMPLETA</span><br>";
+            }
+            system.resetState();
         };
     }
     setTimeout(() => { csv.value = "" }, 2000)
